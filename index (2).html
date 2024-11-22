@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Purchase Tracker</title>
+    <link rel="stylesheet" href="billingcss.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Purchase Tracker</h2>
+
+        <!-- Purchase Form -->
+        <form id="purchase-form">
+            <label for="purchase-date">Date of Purchase:</label>
+            <input type="date" id="purchase-date" required>
+            
+            <label for="company-name">Company Name:</label>
+            <input type="text" id="company-name" required>
+
+            <label for="product-name">Product Name:</label>
+            <input type="text" id="product-name" required>
+
+            <label for="bill-file">Upload Bill:</label>
+            <input type="file" id="bill-file" accept="image/*,application/pdf">
+            
+            <button type="submit">Save Purchase</button>
+        </form>
+
+        <!-- Button to download data as Excel -->
+        <button id="download-excel" style="display: none;">Download Excel</button>
+        <div class="tablecon">
+
+        <h3>Purchased Items</h3>
+        <table id="purchase-list">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Company Name</th>
+                    <th>Product</th>
+                    <th>Status</th>
+                    <th>Bill</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Purchase data will appear here -->
+            </tbody>
+        </table>
+    </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script> <!-- Include the xlsx.js library -->
+    <script src="script.js"></script>
+</body>
+</html>
+
