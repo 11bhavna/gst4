@@ -95,7 +95,7 @@
 
         // Send purchase data to Google Sheets using Google Apps Script
         function sendPurchaseToGoogleSheet(purchaseData) {
-            const url = 'https://script.google.com/macros/s/your-script-id/exec';
+            const url = 'https://script.google.com/macros/s/AKfycbwlFR-9wQrYJWyGmiFogNYlJlheKoJ2TWiIlyPZWoBCQIJ2D3bcnslc39GgkM6jUhUL/exec';
 
             // Format the purchase data for the POST request
             const data = {
