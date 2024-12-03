@@ -3,10 +3,12 @@ import os
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 
-app = Flask(__name__)
+app = Flask(__name__,template_folder='/var/www/html/gst4/gst4/templates')
 
 # Configure server upload folder and public URL
+
 SERVER_UPLOAD_FOLDER = 'var/www/html/gst4/gst4/templates'  # Replace with the actual server folder path
+SERVER_UPLOAD_FOLDER1='var/www/html/gst4/gst4'
 SERVER_PUBLIC_URL = 'http://167.71.237.12:5000'  # Replace with the actual server public URL
 
 # Google Sheets API authentication
@@ -16,6 +18,7 @@ def authenticate_google_sheets():
         "https://www.googleapis.com/auth/spreadsheets",
         "https://www.googleapis.com/auth/drive.file",
     ]
+    file_path = os.path.join(SERVER_UPLOAD_FOLDER1, filename)
     creds = ServiceAccountCredentials.from_json_keyfile_name('credentials.json', scope)
     client = gspread.authorize(creds)
     return client
