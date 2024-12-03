@@ -4,7 +4,10 @@ import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 
 app = Flask(__name__)
-app.config['UPLOAD_FOLDER'] = os.path.join(os.getcwd(), 'uploaded_files')
+
+# Configure server upload folder and public URL
+SERVER_UPLOAD_FOLDER = 'var/www/html/gst4/gst4/templates'  # Replace with the actual server folder path
+SERVER_PUBLIC_URL = 'http://167.71.237.12:5000'  # Replace with the actual server public URL
 
 # Google Sheets API authentication
 def authenticate_google_sheets():
@@ -19,7 +22,7 @@ def authenticate_google_sheets():
 
 @app.route('/')
 def index():
-    return render_template('index.html')                             
+    return render_template('index.html')
 
 @app.route('/submit', methods=['POST'])
 def handle_form_submission():
@@ -29,20 +32,20 @@ def handle_form_submission():
     companyname = request.form.get('companyname')
     status = 'Received' if 'billphoto' in request.files and request.files['billphoto'].filename else 'Pending'
 
-    # Save uploaded file
+    # Save uploaded file to the server
     billphoto = request.files.get('billphoto')
     billphoto_link = ''
     if billphoto and billphoto.filename:
         filename = billphoto.filename
-        file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-        billphoto.save(file_path)
-        # Create hyperlink formula for Google Sheets
-        billphoto_link = f'=HYPERLINK("file:///{file_path.replace("\\", "/")}", "View Bill")'
+        file_path = os.path.join(SERVER_UPLOAD_FOLDER, filename)
+        billphoto.save(file_path)  # Save the file to the server
+        # Create a public URL for the uploaded file
+        billphoto_link = f'=HYPERLINK("{SERVER_PUBLIC_URL}{filename}", "View Bill")'
 
     # Append data to Google Sheet
     try:
         client = authenticate_google_sheets()
-        sheet = client.open_by_key('1VY_0NnPCTkcXdJeppFY1o4AFERyCBtul2731nkA4MV4').sheet1
+        sheet = client.open_by_key('1wNnP_GCw9fQMKDER8ug8TwIVKa59g257P5WJY2MJq6w').sheet1
         row = [date, productname, companyname, status, billphoto_link]
         sheet.append_row(row, value_input_option='USER_ENTERED')  # Ensures formulas are rendered as clickable
     except Exception as e:
@@ -52,5 +55,6 @@ def handle_form_submission():
     return redirect(url_for('index'))
 
 if __name__ == '__main__':
-    os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
-    app.run(host='0.0.0.0', port=5000, debug=True)  # Modify this line to allow access from mobile devices
+    # Ensure the server upload folder exists
+    os.makedirs(SERVER_UPLOAD_FOLDER, exist_ok=True)
+    app.run(host='0.0.0.0', port=5000, debug=True) 
