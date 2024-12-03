@@ -18,7 +18,7 @@ def authenticate_google_sheets():
         "https://www.googleapis.com/auth/spreadsheets",
         "https://www.googleapis.com/auth/drive.file",
     ]
-    file_path = os.path.join(SERVER_UPLOAD_FOLDER1, filename)
+    file_path = os.path.join(SERVER_UPLOAD_FOLDER1)
     creds = ServiceAccountCredentials.from_json_keyfile_name('credentials.json', scope)
     client = gspread.authorize(creds)
     return client
