@@ -60,4 +60,4 @@ def handle_form_submission():
 if __name__ == '__main__':
     # Ensure the server upload folder exists
     os.makedirs(SERVER_UPLOAD_FOLDER, exist_ok=True)
-    app.run(host='167.71.237.12', port=5000, debug=True) 
+    app.run(host='0.0.0.0', port=5000, debug=True) 
